@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pryCalvar-IEFI", "pryCalvar-IEFI\pryCalvar-IEFI.csproj", "{2556785E-914B-4556-AFFF-4957ECF70DCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2556785E-914B-4556-AFFF-4957ECF70DCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2556785E-914B-4556-AFFF-4957ECF70DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2556785E-914B-4556-AFFF-4957ECF70DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2556785E-914B-4556-AFFF-4957ECF70DCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56A687D9-81BA-4797-A970-D4AFBC1B8652}
+	EndGlobalSection
+EndGlobal
