@@ -28,6 +28,9 @@ namespace pryCalvar_IEFI
         public frmPrincipal(Usuario usuario)
         {
             InitializeComponent();
+
+            this.FormClosing += frmPrincipal_FormClosing;
+
             usuarioActual = usuario;
 
             cronometro = new Stopwatch();
@@ -130,23 +133,32 @@ namespace pryCalvar_IEFI
             ABMUsuarios.Show();
         }
 
-        private void btnSalir_Click(object sender, EventArgs e)
-        {
-            if (cronometro.IsRunning)
-            {
-                cronometro.Stop();
-                MessageBox.Show("El cronómetro se ha detenido.", "Detenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Ya estaba detenido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
         private void btnGenerarReporte_Click(object sender, EventArgs e)
         {
             frmAuditoria auditoria = new frmAuditoria();
             auditoria.Show();
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+
+            // Se dispara el evento FormClosing y guarda la auditoría automáticamente
+            frmLogin login = new frmLogin();
+            login.Show();
+            this.Close();
+        }
+
+        private void frmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (cronometro.IsRunning)
+            {
+                cronometro.Stop();
+            }
+
+            TimeSpan tiempoUso = cronometro.Elapsed;
+
+            AuditoriaDatos.RegistrarAuditoria(usuarioActual.Id, inicio, tiempoUso);
         }
 
     }

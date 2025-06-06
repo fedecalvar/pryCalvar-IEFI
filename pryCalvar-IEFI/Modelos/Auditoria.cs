@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace pryCalvar_IEFI.Modelos
 {
-    internal class Auditoria
+    public class Auditoria
     {
         public int IdAuditoria { get; set; }
         public string NombreUsuario { get; set; }

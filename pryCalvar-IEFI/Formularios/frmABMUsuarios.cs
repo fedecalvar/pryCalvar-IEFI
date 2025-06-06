@@ -48,12 +48,12 @@ namespace pryCalvar_IEFI.Formularios
         {
             if (cboUsuarios.SelectedItem != null)
             {
-                Usuario u = (Usuario)cboUsuarios.SelectedItem;
+                Usuario usuario = (Usuario)cboUsuarios.SelectedItem;
 
-                txtNombreCompletoModificar.Text = u.NombreCompleto;
-                txtEmailModificar.Text = u.Email;
-                txtTelefonoModificar.Text = u.Telefono;
-                cboTipoUsuario.SelectedItem = u.TipoUsuario;
+                txtNombreCompletoModificar.Text = usuario.NombreCompleto;
+                txtEmailModificar.Text = usuario.Email;
+                txtTelefonoModificar.Text = usuario.Telefono;
+                cboTipoUsuario.SelectedItem = usuario.TipoUsuario;
             }
         }
 
