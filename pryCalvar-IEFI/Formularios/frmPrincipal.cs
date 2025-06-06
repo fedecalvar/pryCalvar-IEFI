@@ -1,0 +1,153 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Diagnostics;
+using pryCalvar_IEFI.Modelos;
+using pryCalvar_IEFI.Datos;
+using pryCalvar_IEFI.Formularios;
+
+
+namespace pryCalvar_IEFI
+{
+    public partial class frmPrincipal : Form
+    {
+        // declaramos un campo privado dentro del formulario frmPrincipal
+        // llamamos a usuarioActual que guarda el objeto "Usuario" que viene desde el login
+        private Usuario usuarioActual;
+        private int idAuditoria;
+        clsConexion conexion = new clsConexion();
+        private Stopwatch cronometro;
+        private DateTime inicio;
+
+        public frmPrincipal(Usuario usuario)
+        {
+            InitializeComponent();
+            usuarioActual = usuario;
+
+            cronometro = new Stopwatch();
+            cronometro.Start();
+
+            inicio = DateTime.Now;
+
+            mostrarInfoUsuario();
+            CargarComboTipoUsuario();
+
+            cargarTareasUsuario();
+        }
+
+        private void mostrarInfoUsuario()
+        {
+            // Usuario
+            tslUsuario.Text = "👤 " + usuarioActual.NombreUsuario;
+
+            // Fecha y desplazado a la derecha
+            tslfecha.Text = "📅 " + DateTime.Now.ToString("dd/MM/yyyy");
+            tslfecha.Alignment = ToolStripItemAlignment.Right;
+        }
+
+        // Este metodo me va permitir llenar el combobox y
+        // activar en caso de que el tipousuario sea adm 
+        // el boton ABM Usuario.
+        private void CargarComboTipoUsuario()
+        {
+            msCboTipoUsuario.Items.Clear();
+
+            if (usuarioActual.TipoUsuario == "Administrador")
+            {
+                msCboTipoUsuario.Items.Add("Administrador");
+                msCboTipoUsuario.Items.Add("Usuario");
+                msCboTipoUsuario.SelectedIndex = 0;
+                btnABMUsuarios.Visible = true;
+            }
+            else
+            {
+                msCboTipoUsuario.Items.Add("Usuario");
+                msCboTipoUsuario.SelectedIndex = 0;
+                msCboTipoUsuario.Enabled = false;
+                btnABMUsuarios.Visible = false;
+            }
+        }
+
+        public void cargarTareasUsuario()
+        {
+            List<Tarea> tareas = TareaDatos.ObtenerTareasUsuario(usuarioActual.Id);
+            dgvTareas.DataSource = tareas;
+
+            AgregarColumnas();
+        }
+
+        private void AgregarColumnas()
+        {
+            if (dgvTareas.Columns.Contains("IdTarea"))
+                dgvTareas.Columns["IdTarea"].HeaderText = "Código";
+
+            if (dgvTareas.Columns.Contains("Titulo"))
+                dgvTareas.Columns["Titulo"].HeaderText = "Título";
+
+            if (dgvTareas.Columns.Contains("Descripcion"))
+                dgvTareas.Columns["Descripcion"].HeaderText = "Descripción";
+
+            if (dgvTareas.Columns.Contains("FechaVencimiento"))
+                dgvTareas.Columns["FechaVencimiento"].HeaderText = "Vence el";
+
+            if (dgvTareas.Columns.Contains("Prioridad"))
+                dgvTareas.Columns["Prioridad"].HeaderText = "Prioridad";
+
+            if (dgvTareas.Columns.Contains("Estado"))
+                dgvTareas.Columns["Estado"].HeaderText = "Estado";
+
+            if (dgvTareas.Columns.Contains("IdUsuario"))
+                dgvTareas.Columns["IdUsuario"].Visible = false;
+
+            dgvTareas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void msCboTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string tipoSeleccionado = msCboTipoUsuario.SelectedItem.ToString();
+
+            if (tipoSeleccionado == "Administrador")
+            {
+                btnABMUsuarios.Visible = true;
+                btnGenerarReporte.Visible = true;
+            }
+            else
+            {
+                btnABMUsuarios.Visible = false;
+                btnGenerarReporte.Visible= false;
+            }
+        }
+
+        private void btnABMUsuarios_Click(object sender, EventArgs e)
+        {
+            frmABMUsuarios ABMUsuarios = new frmABMUsuarios();
+            ABMUsuarios.Show();
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            if (cronometro.IsRunning)
+            {
+                cronometro.Stop();
+                MessageBox.Show("El cronómetro se ha detenido.", "Detenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Ya estaba detenido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnGenerarReporte_Click(object sender, EventArgs e)
+        {
+            frmAuditoria auditoria = new frmAuditoria();
+            auditoria.Show();
+        }
+
+    }
+}
