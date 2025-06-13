@@ -34,12 +34,14 @@
             this.txtContrasena = new System.Windows.Forms.TextBox();
             this.btnIngresar = new System.Windows.Forms.Button();
             this.btnRegistrarse = new System.Windows.Forms.Button();
+            this.pbIconoInicioSesion = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbIconoInicioSesion)).BeginInit();
             this.SuspendLayout();
             // 
             // txtUsuario
             // 
             this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsuario.Location = new System.Drawing.Point(112, 12);
+            this.txtUsuario.Location = new System.Drawing.Point(11, 35);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(224, 27);
@@ -49,7 +51,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(38, 19);
+            this.label1.Location = new System.Drawing.Point(9, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 20);
             this.label1.TabIndex = 1;
@@ -59,7 +61,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 65);
+            this.label3.Location = new System.Drawing.Point(7, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 20);
             this.label3.TabIndex = 3;
@@ -68,7 +70,7 @@
             // txtContrasena
             // 
             this.txtContrasena.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtContrasena.Location = new System.Drawing.Point(112, 58);
+            this.txtContrasena.Location = new System.Drawing.Point(11, 93);
             this.txtContrasena.Multiline = true;
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.PasswordChar = '*';
@@ -78,8 +80,9 @@
             // btnIngresar
             // 
             this.btnIngresar.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnIngresar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIngresar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnIngresar.Location = new System.Drawing.Point(112, 91);
+            this.btnIngresar.Location = new System.Drawing.Point(11, 126);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(109, 30);
             this.btnIngresar.TabIndex = 5;
@@ -90,8 +93,9 @@
             // btnRegistrarse
             // 
             this.btnRegistrarse.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnRegistrarse.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegistrarse.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnRegistrarse.Location = new System.Drawing.Point(227, 91);
+            this.btnRegistrarse.Location = new System.Drawing.Point(126, 126);
             this.btnRegistrarse.Name = "btnRegistrarse";
             this.btnRegistrarse.Size = new System.Drawing.Size(109, 30);
             this.btnRegistrarse.TabIndex = 6;
@@ -99,10 +103,21 @@
             this.btnRegistrarse.UseVisualStyleBackColor = false;
             this.btnRegistrarse.Click += new System.EventHandler(this.btnRegistrarse_Click);
             // 
+            // pbIconoInicioSesion
+            // 
+            this.pbIconoInicioSesion.Location = new System.Drawing.Point(254, 12);
+            this.pbIconoInicioSesion.Name = "pbIconoInicioSesion";
+            this.pbIconoInicioSesion.Size = new System.Drawing.Size(248, 183);
+            this.pbIconoInicioSesion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbIconoInicioSesion.TabIndex = 14;
+            this.pbIconoInicioSesion.TabStop = false;
+            // 
             // frmLogin
             // 
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(362, 125);
+            this.ClientSize = new System.Drawing.Size(513, 204);
+            this.Controls.Add(this.pbIconoInicioSesion);
             this.Controls.Add(this.btnRegistrarse);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.txtContrasena);
@@ -114,6 +129,7 @@
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            ((System.ComponentModel.ISupportInitialize)(this.pbIconoInicioSesion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -127,6 +143,7 @@
         private System.Windows.Forms.TextBox txtContrasena;
         private System.Windows.Forms.Button btnIngresar;
         private System.Windows.Forms.Button btnRegistrarse;
+        private System.Windows.Forms.PictureBox pbIconoInicioSesion;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using pryCalvar_IEFI.Modelos;
+﻿using MaterialDesignColors;
+using pryCalvar_IEFI.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -41,6 +42,9 @@ namespace pryCalvar_IEFI.Datos
                 }
             }
         }
+
+        // recibe un objeto Usuario como parametro y va a devolver el usuario
+        // con todos los datos menos el id. El id lo genera SQL y si algo falla devuelve null
         public static Usuario RegistrarUsuario(Usuario nuevoUsuario)
         {
             using (SqlConnection conexion = new clsConexion().ObtenerConexion())
@@ -48,7 +52,6 @@ namespace pryCalvar_IEFI.Datos
                 string consulta = "INSERT INTO Usuarios (NombreUsuario, Contrasena, TipoUsuario, NombreCompleto, Email, Telefono) " +
                                   "OUTPUT INSERTED.IdUsuario " +
                                   "VALUES (@NombreUsuario, @Contrasena, @TipoUsuario, @NombreCompleto, @Email, @Telefono)";
-
                 // Output inserted devuelve el idusuario que genera sqlserver cuando hacemos el insert
 
 
@@ -63,6 +66,8 @@ namespace pryCalvar_IEFI.Datos
 
                 int idInsertado = (int)comando.ExecuteScalar();
 
+                // si el id es valido, se le asigna a nuevoUsuario
+                // si hay un error, como mencionamos antes devuelve null
                 if (idInsertado > 0)
                 {
                     nuevoUsuario.Id = idInsertado;
@@ -84,6 +89,9 @@ namespace pryCalvar_IEFI.Datos
 
                 //conn.Open();
                 int filas = cmd.ExecuteNonQuery();
+
+                // Si filas > 0, significa que elimino a un usuario.
+                // devuelve true y si no encontro nada, no se elimina nada y devuelve false
                 return filas > 0;
             }
         }
@@ -115,11 +123,17 @@ namespace pryCalvar_IEFI.Datos
         {
             using (SqlConnection conn = new clsConexion().ObtenerConexion())
             {
+                // La consulta cuenta cuántos registros hay en la tabla Usuarios
+                // donde el campo Email sea igual al valor recibido.
                 string query = "SELECT COUNT(*) FROM Usuarios WHERE NombreUsuario = @nombre";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@nombre", nombreUsuario);
 
+                // ExecuteScalar() ejecuta la consulta y devuelve un único valor escalar
+                // que en este caso es el resultado del COUNT(*), un número entero.
                 int cantidad = (int)cmd.ExecuteScalar();
+
+                // si la cantidad es mayor a 0 significa que ya existe un usuario registrado con el nombre
                 return cantidad > 0;
             }
         }
@@ -128,6 +142,7 @@ namespace pryCalvar_IEFI.Datos
         {
             using (SqlConnection conn = new clsConexion().ObtenerConexion())
             {
+                // idem ExisteNombreUsuario
                 string query = "SELECT COUNT(*) FROM Usuarios WHERE Email = @correo";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@correo", email);
@@ -147,10 +162,12 @@ namespace pryCalvar_IEFI.Datos
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                while (reader.Read()) // mientras haya registros por leer, lee fila por fila
                 {
-                    Usuario u = new Usuario
+                    // crea un objeto fila por fila
+                    Usuario usuario = new Usuario
                     {
+                        // reader.GetOrdinal() <-- Obtiene el indice de la columna y despues lee el valor
                         Id = reader.GetInt32(reader.GetOrdinal("IdUsuario")),
                         NombreUsuario = reader.GetString(reader.GetOrdinal("NombreUsuario")),
                         Contrasena = reader.GetString(reader.GetOrdinal("Contrasena")),
@@ -160,10 +177,10 @@ namespace pryCalvar_IEFI.Datos
                         Telefono = reader.GetString(reader.GetOrdinal("Telefono"))
                     };
 
-                    lista.Add(u);
+                    lista.Add(usuario);
                 }
             }
-
+            // devuelve la lista completa
             return lista;
         }
     }

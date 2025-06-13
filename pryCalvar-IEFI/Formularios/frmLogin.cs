@@ -17,13 +17,12 @@ namespace pryCalvar_IEFI
     public partial class frmLogin : Form
     {
 
-        clsConexion conexion = new clsConexion();
-
         public frmLogin()
         {
             InitializeComponent();
 
-            //pbIconoInicioSesion.Image = Properties.Resources.icono_inicio_sesion;
+
+            pbIconoInicioSesion.Image = Properties.Resources.icono_inicio_sesion;
             txtUsuario.MaxLength = 30;
             txtContrasena.MaxLength = 20;
         }

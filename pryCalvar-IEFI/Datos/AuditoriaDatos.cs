@@ -10,6 +10,7 @@ namespace pryCalvar_IEFI.Datos
 {
     internal class AuditoriaDatos
     {
+        // hay que recordar que al ser un metodo "estatico" se puede llamar sin crear la clase.
         public static List<Auditoria> ObtenerAuditoria()
         {
             List<Auditoria> lista = new List<Auditoria>();

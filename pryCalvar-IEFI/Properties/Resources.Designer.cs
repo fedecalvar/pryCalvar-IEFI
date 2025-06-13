@@ -63,6 +63,16 @@ namespace pryCalvar_IEFI.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icono_inicio_sesion {
+            get {
+                object obj = ResourceManager.GetObject("icono_inicio_sesion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap nuevo_usuario {
             get {
                 object obj = ResourceManager.GetObject("nuevo_usuario", resourceCulture);

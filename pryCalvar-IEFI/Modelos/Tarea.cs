@@ -15,6 +15,5 @@ namespace pryCalvar_IEFI.Modelos
         public string Prioridad { get; set; }
         public string Estado { get; set; }
         public int IdUsuario { get; set; }
-
     }
 }

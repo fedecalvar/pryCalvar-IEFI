@@ -20,8 +20,6 @@ namespace pryCalvar_IEFI
         // declaramos un campo privado dentro del formulario frmPrincipal
         // llamamos a usuarioActual que guarda el objeto "Usuario" que viene desde el login
         private Usuario usuarioActual;
-        private int idAuditoria;
-        clsConexion conexion = new clsConexion();
         private Stopwatch cronometro;
         private DateTime inicio;
 
@@ -29,6 +27,8 @@ namespace pryCalvar_IEFI
         {
             InitializeComponent();
 
+            // cuando se cierre el frmPrincipal
+            // se ejecuta frmPrincipal_FormClosing
             this.FormClosing += frmPrincipal_FormClosing;
 
             usuarioActual = usuario;
@@ -40,10 +40,52 @@ namespace pryCalvar_IEFI
 
             mostrarInfoUsuario();
             CargarComboTipoUsuario();
-
             cargarTareasUsuario();
         }
 
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAgregar agregarTarea = new frmAgregar(usuarioActual.Id);
+            agregarTarea.Show();
+        }
+
+        private void btnABMUsuarios_Click(object sender, EventArgs e)
+        {
+            frmABMUsuarios ABMUsuarios = new frmABMUsuarios();
+            ABMUsuarios.Show();
+        }
+
+        private void btnGenerarReporte_Click(object sender, EventArgs e)
+        {
+            frmAuditoria auditoria = new frmAuditoria();
+            auditoria.Show();
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+
+            // Se dispara el evento FormClosing y guarda la auditoría automáticamente
+            frmLogin login = new frmLogin();
+            login.Show();
+            this.Close();
+        }
+
+        private void msCboTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string tipoSeleccionado = msCboTipoUsuario.SelectedItem.ToString();
+
+            if (tipoSeleccionado == "Administrador")
+            {
+                btnABMUsuarios.Visible = true;
+                btnGenerarReporte.Visible = true;
+            }
+            else
+            {
+                btnABMUsuarios.Visible = false;
+                btnGenerarReporte.Visible = false;
+            }
+        }
         private void mostrarInfoUsuario()
         {
             // Usuario
@@ -53,7 +95,6 @@ namespace pryCalvar_IEFI
             tslfecha.Text = "📅 " + DateTime.Now.ToString("dd/MM/yyyy");
             tslfecha.Alignment = ToolStripItemAlignment.Right;
         }
-
         // Este metodo me va permitir llenar el combobox y
         // activar en caso de que el tipousuario sea adm 
         // el boton ABM Usuario.
@@ -67,6 +108,7 @@ namespace pryCalvar_IEFI
                 msCboTipoUsuario.Items.Add("Usuario");
                 msCboTipoUsuario.SelectedIndex = 0;
                 btnABMUsuarios.Visible = true;
+                cargarTareasUsuario();
             }
             else
             {
@@ -74,9 +116,9 @@ namespace pryCalvar_IEFI
                 msCboTipoUsuario.SelectedIndex = 0;
                 msCboTipoUsuario.Enabled = false;
                 btnABMUsuarios.Visible = false;
+                cargarTareasUsuario();
             }
         }
-
         public void cargarTareasUsuario()
         {
             List<Tarea> tareas = TareaDatos.ObtenerTareasUsuario(usuarioActual.Id);
@@ -84,7 +126,6 @@ namespace pryCalvar_IEFI
 
             AgregarColumnas();
         }
-
         private void AgregarColumnas()
         {
             if (dgvTareas.Columns.Contains("IdTarea"))
@@ -111,44 +152,9 @@ namespace pryCalvar_IEFI
             dgvTareas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void msCboTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string tipoSeleccionado = msCboTipoUsuario.SelectedItem.ToString();
-
-            if (tipoSeleccionado == "Administrador")
-            {
-                btnABMUsuarios.Visible = true;
-                btnGenerarReporte.Visible = true;
-            }
-            else
-            {
-                btnABMUsuarios.Visible = false;
-                btnGenerarReporte.Visible= false;
-            }
-        }
-
-        private void btnABMUsuarios_Click(object sender, EventArgs e)
-        {
-            frmABMUsuarios ABMUsuarios = new frmABMUsuarios();
-            ABMUsuarios.Show();
-        }
-
-        private void btnGenerarReporte_Click(object sender, EventArgs e)
-        {
-            frmAuditoria auditoria = new frmAuditoria();
-            auditoria.Show();
-        }
-
-        private void btnSalir_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-
-            // Se dispara el evento FormClosing y guarda la auditoría automáticamente
-            frmLogin login = new frmLogin();
-            login.Show();
-            this.Close();
-        }
-
+        // Este evento se dispara cuando se cierra el frmPrincipal
+        // detiene el cronometro. Calcula el tiempo total usando .Elapsed
+        // y registra la auditoria con el usuario que estaba logueado, su hora de ingreso y el tiempo total.
         private void frmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (cronometro.IsRunning)
@@ -161,5 +167,21 @@ namespace pryCalvar_IEFI
             AuditoriaDatos.RegistrarAuditoria(usuarioActual.Id, inicio, tiempoUso);
         }
 
+        private void dgvTareas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvTareas.CurrentRow != null)
+            {
+                Tarea tareaSeleccionada = (Tarea)dgvTareas.CurrentRow.DataBoundItem;
+                frmModificarEliminar modificarEliminar = new frmModificarEliminar(tareaSeleccionada);
+                modificarEliminar.ShowDialog();
+
+                cargarTareasUsuario();
+            }
+        }
+
+        private void btnRecargarDgv_Click(object sender, EventArgs e)
+        {
+            cargarTareasUsuario();
+        }
     }
 }

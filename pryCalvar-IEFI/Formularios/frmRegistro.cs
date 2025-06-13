@@ -99,5 +99,6 @@ namespace pryCalvar_IEFI.Formularios
                 e.Handled = true; // Cancela la tecla
             }
         }
+
     }
 }

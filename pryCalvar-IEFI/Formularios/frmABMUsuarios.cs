@@ -27,105 +27,19 @@ namespace pryCalvar_IEFI.Formularios
             cboTipoUsuarioRegistro.Items.Clear();
             cboTipoUsuarioRegistro.Items.Add("Administrador");
             cboTipoUsuarioRegistro.Items.Add("Usuario");
+
+            txtNombreCompletoModificar.MaxLength = 100;
+            txtEmailModificar.MaxLength = 100;
+            txtTelefonoModificar.MaxLength = 15;
+
+            txtNombreCompletoRegistro.MaxLength = 100;
+            txtEmailRegistro.MaxLength = 100;
+            txtNombreUsuarioRegistro.MaxLength = 30;
+            txtContrasenaRegistro.MaxLength = 20;
+            txtRepetirContrasenaRegistro.MaxLength = 20;
+            txtTelefonoRegistro.MaxLength = 15;
         }
 
-        private void CargarUsuariosCombo()
-        {
-            cboUsuarios.DataSource = null;
-            cboUsuarios.DataSource = UsuarioDatos.ObtenerTodos();
-            cboUsuarios.DisplayMember = "NombreUsuario";
-            cboUsuarios.ValueMember = "Id";
-            cboUsuarios.SelectedIndex = -1;
-
-            cboEliminarUsuario.DataSource = null;
-            cboEliminarUsuario.DataSource = UsuarioDatos.ObtenerTodos();
-            cboEliminarUsuario.DisplayMember = "NombreUsuario";
-            cboEliminarUsuario.ValueMember = "Id";
-            cboEliminarUsuario.SelectedIndex = -1;
-        }
-
-        private void cboUsuarios_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cboUsuarios.SelectedItem != null)
-            {
-                Usuario usuario = (Usuario)cboUsuarios.SelectedItem;
-
-                txtNombreCompletoModificar.Text = usuario.NombreCompleto;
-                txtEmailModificar.Text = usuario.Email;
-                txtTelefonoModificar.Text = usuario.Telefono;
-                cboTipoUsuario.SelectedItem = usuario.TipoUsuario;
-            }
-        }
-
-        private void btnConfirmar_Click(object sender, EventArgs e)
-        {
-            if (cboUsuarios.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccioná un usuario primero.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            Usuario original = (Usuario)cboUsuarios.SelectedItem;
-
-            Usuario actualizado = new Usuario
-            {
-                Id = original.Id,
-                NombreUsuario = original.NombreUsuario,
-                Contrasena = original.Contrasena,
-                TipoUsuario = cboTipoUsuario.SelectedItem?.ToString(),
-                NombreCompleto = txtNombreCompletoModificar.Text.Trim(),
-                Email = txtEmailModificar.Text.Trim(),
-                Telefono = txtTelefonoModificar.Text.Trim()
-            };
-
-            bool exito = UsuarioDatos.ModificarUsuario(actualizado);
-
-            if (exito)
-            {
-                MessageBox.Show("Cambios guardados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CargarUsuariosCombo();
-                LimpiarCampos();
-            }
-            else
-            {
-                MessageBox.Show("Error al guardar los cambios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if(cboEliminarUsuario.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccioná un usuario para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            Usuario seleccionado = (Usuario)cboEliminarUsuario.SelectedItem;
-
-            DialogResult confirmacion = MessageBox.Show(
-            $"¿Seguro que querés eliminar a {seleccionado.NombreUsuario}?",
-            "Confirmar eliminación",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Warning);
-
-            if (confirmacion == DialogResult.Yes)
-            {
-                bool eliminado = UsuarioDatos.EliminarUsuario(seleccionado.Id);
-
-                if (eliminado)
-                {
-                    MessageBox.Show("Usuario eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //CargarUsuariosCombo();
-                    CargarUsuariosCombo(); // También actualizás el Combo de Modificar
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo eliminar el usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             try
@@ -191,6 +105,112 @@ namespace pryCalvar_IEFI.Formularios
                 MessageBox.Show("Error inesperado: " + ex.Message, "Excepción", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnConfirmar_Click(object sender, EventArgs e)
+        {
+            if (cboUsuarios.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccioná un usuario primero.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // se obtiene el usuario que el adm eleigio en el cbobox
+            Usuario original = (Usuario)cboUsuarios.SelectedItem;
+
+            Usuario actualizado = new Usuario
+            {
+                // se crea el objeto actualizado con los datos actualizados del usuario
+                Id = original.Id,
+                NombreUsuario = original.NombreUsuario,
+                Contrasena = original.Contrasena,
+                TipoUsuario = cboTipoUsuario.SelectedItem?.ToString(),
+                NombreCompleto = txtNombreCompletoModificar.Text.Trim(),
+                Email = txtEmailModificar.Text.Trim(),
+                Telefono = txtTelefonoModificar.Text.Trim()
+            };
+
+            bool exito = UsuarioDatos.ModificarUsuario(actualizado);
+
+            if (exito)
+            {
+                MessageBox.Show("Cambios guardados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarUsuariosCombo();
+                LimpiarCampos();
+            }
+            else
+            {
+                MessageBox.Show("Error al guardar los cambios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (cboEliminarUsuario.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccioná un usuario para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Usuario seleccionado = (Usuario)cboEliminarUsuario.SelectedItem;
+
+            DialogResult confirmacion = MessageBox.Show(
+            $"¿Seguro que querés eliminar a {seleccionado.NombreUsuario}?",
+            "Confirmar eliminación",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning);
+
+            if (confirmacion == DialogResult.Yes)
+            {
+                bool eliminado = UsuarioDatos.EliminarUsuario(seleccionado.Id);
+
+                if (eliminado)
+                {
+                    MessageBox.Show("Usuario eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarUsuariosCombo();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar el usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void CargarUsuariosCombo()
+        {
+            // elimina cualquier dato que pudiera tener el cbobox
+            cboUsuarios.DataSource = null;
+            // el origen de los datos, la lista de usuario obtenida desde la base con el metodo
+            // obtenerTodos()
+            cboUsuarios.DataSource = UsuarioDatos.ObtenerTodos();
+            // el nombre de usuario
+            cboUsuarios.DisplayMember = "NombreUsuario";
+            // el valor real que representa cada item, osea su id
+            cboUsuarios.ValueMember = "Id";
+            // Deselección por defecto
+            cboUsuarios.SelectedIndex = -1;
+
+            cboEliminarUsuario.DataSource = null;
+            cboEliminarUsuario.DataSource = UsuarioDatos.ObtenerTodos();
+            cboEliminarUsuario.DisplayMember = "NombreUsuario";
+            cboEliminarUsuario.ValueMember = "Id";
+            cboEliminarUsuario.SelectedIndex = -1;
+        }
+
+        private void cboUsuarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboUsuarios.SelectedItem != null)
+            {
+                Usuario usuario = (Usuario)cboUsuarios.SelectedItem;
+
+                txtNombreCompletoModificar.Text = usuario.NombreCompleto;
+                txtEmailModificar.Text = usuario.Email;
+                txtTelefonoModificar.Text = usuario.Telefono;
+                cboTipoUsuario.SelectedItem = usuario.TipoUsuario;
+            }
+        }
+
         private void LimpiarCampos()
         {
             cboUsuarios.SelectedIndex = -1;
@@ -210,6 +230,28 @@ namespace pryCalvar_IEFI.Formularios
             cboTipoUsuarioRegistro.SelectedIndex = -1;
         }
 
+        private void txtTelefonoRegistro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // No se permite escribir letras ni simbolos, solo números
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla
+            }
+        }
+
+        private void txtTelefonoModificar_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // No se permite escribir letras ni simbolos, solo números
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla
+            }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
 

@@ -30,7 +30,7 @@
         {
             this.dgvAuditoria = new System.Windows.Forms.DataGridView();
             this.btnDescargar = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditoria)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,6 +45,7 @@
             // btnDescargar
             // 
             this.btnDescargar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnDescargar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDescargar.ForeColor = System.Drawing.SystemColors.Control;
             this.btnDescargar.Location = new System.Drawing.Point(387, 13);
             this.btnDescargar.Name = "btnDescargar";
@@ -54,23 +55,26 @@
             this.btnDescargar.UseVisualStyleBackColor = false;
             this.btnDescargar.Click += new System.EventHandler(this.btnDescargar_Click);
             // 
-            // button1
+            // btnVolver
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(159)))), ((int)(((byte)(67)))));
-            this.button1.ForeColor = System.Drawing.SystemColors.Control;
-            this.button1.Location = new System.Drawing.Point(387, 60);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(152, 41);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Volver";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnVolver.BackColor = System.Drawing.Color.Orange;
+            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVolver.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnVolver.Location = new System.Drawing.Point(387, 60);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(152, 41);
+            this.btnVolver.TabIndex = 18;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = false;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // frmAuditoria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(546, 271);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnDescargar);
             this.Controls.Add(this.dgvAuditoria);
             this.Name = "frmAuditoria";
@@ -84,6 +88,6 @@
 
         private System.Windows.Forms.DataGridView dgvAuditoria;
         private System.Windows.Forms.Button btnDescargar;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnVolver;
     }
 }
